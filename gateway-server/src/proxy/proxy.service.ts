@@ -5,15 +5,23 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 @Injectable()
 export class ProxyService {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService) { }
 
-  // 사용자 정보를 포함한 헤더 생성
   getForwardHeaders(headers: any, user: any): any {
-    const forwardHeaders = { ...headers };
-    if (user) {
-      forwardHeaders['X-User-Id'] = user.id;
-      forwardHeaders['X-User-Role'] = user.role;
+    const forwardHeaders: Record<string, string> = {};
+
+    const allowed = ['authorization', 'content-type'];
+    for (const key in headers) {
+      if (allowed.includes(key.toLowerCase())) {
+        forwardHeaders[key] = headers[key];
+      }
     }
+
+    if (user) {
+      forwardHeaders['X-User-Id'] = user.id || '';
+      forwardHeaders['X-User-Role'] = user.role || '';
+    }
+
     return forwardHeaders;
   }
 

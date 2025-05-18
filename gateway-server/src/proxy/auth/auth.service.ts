@@ -26,7 +26,7 @@ export class AuthService {
   async refreshToken(refreshToken: string): Promise<TokenResponseData> {
     return this.proxyService.forwardRequest(
       'post',
-      `${this.AUTH_SERVER_URL}/auth/refresh`,
+      `${this.AUTH_SERVER_URL}/auth/token/refresh`,
       { refreshToken },
     );
   }
