@@ -31,7 +31,10 @@ export class RewardRequestController {
   }
 
   @Get()
-  async findAll(): Promise<RewardRequest[]> {
-    return this.rewardRequestService.findAll();
+  async findAll(
+    @Query('conditionType') conditionType?: string,
+    @Query('status') status?: string,
+  ): Promise<RewardRequest[]> {
+    return this.rewardRequestService.findAll(conditionType, status);
   }
 } 

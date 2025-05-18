@@ -4,9 +4,9 @@ import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { EventService } from './event.service';
 import { ProxyService } from '../proxy.service';
-import { 
-  CreateEventData, 
-  EventResponseData, 
+import {
+  CreateEventData,
+  EventResponseData,
   EventListResponseData,
   CreateRewardData,
   RewardResponseData,
@@ -94,7 +94,16 @@ export class EventController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('OPERATOR', 'ADMIN', 'AUDITOR')
-  async getAllRewardRequests(@Headers() headers, @Req() req): Promise<RewardRequestListResponseData> {
-    return this.eventService.getAllRewardRequests(this.proxyService.getForwardHeaders(headers, req.user));
+  async getAllRewardRequests(
+    @Headers() headers,
+    @Req() req,
+    @Query('conditionType') conditionType?: string,
+    @Query('status') status?: string,
+  ): Promise<RewardRequestListResponseData> {
+    return this.eventService.getAllRewardRequests(
+      this.proxyService.getForwardHeaders(headers, req.user),
+      conditionType,
+      status
+    );
   }
 } 

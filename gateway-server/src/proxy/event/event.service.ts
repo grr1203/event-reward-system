@@ -111,10 +111,12 @@ export class EventService {
     );
   }
 
-  async getAllRewardRequests(headers: any): Promise<RewardRequestListResponseData> {
+  async getAllRewardRequests(headers: any, conditionType?: string, status?: string): Promise<RewardRequestListResponseData> {
+    let queryString = conditionType ? `?conditionType=${conditionType}` : '';
+    queryString += status ? `&status=${status}` : '';
     return this.proxyService.forwardRequest(
       'get',
-      `${this.EVENT_SERVER_URL}/reward-request`,
+      `${this.EVENT_SERVER_URL}/reward-request${queryString}`,
       null,
       headers,
     );

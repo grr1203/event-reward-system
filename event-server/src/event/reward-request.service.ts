@@ -5,11 +5,13 @@ import { RewardRequest, RewardRequestDocument } from '../schemas/reward-request.
 import { CreateRewardRequestDto } from './dto/create-reward-request.dto';
 import { EventService } from './event.service';
 import { RewardService } from './reward.service';
+import { Event, EventDocument } from 'src/schemas/event.schema';
 
 @Injectable()
 export class RewardRequestService {
   constructor(
     @InjectModel(RewardRequest.name) private rewardRequestModel: Model<RewardRequestDocument>,
+    @InjectModel(Event.name) private eventModel: Model<EventDocument>,
     private eventService: EventService,
     private rewardService: RewardService,
   ) { }
@@ -66,8 +68,26 @@ export class RewardRequestService {
       .exec();
   }
 
-  async findAll(): Promise<RewardRequest[]> {
-    return this.rewardRequestModel.find()
+  async findAll(conditionType?: string, status?: string): Promise<RewardRequest[]> {
+    const requestQuery: any = {};
+    const eventQuery: any = {};
+
+    if (status) {
+      requestQuery.status = status;
+    }
+
+    if (conditionType) {
+      eventQuery['condition.type'] = conditionType;
+      const events = await this.eventModel.find(eventQuery).exec();
+      if (events.length === 0) {
+        return [];
+      }
+
+      const eventIds = events.map(event => event._id);
+      requestQuery.eventId = { $in: eventIds };
+    }
+
+    return this.rewardRequestModel.find(requestQuery)
       .populate('eventId')
       .populate('rewardId')
       .exec();
