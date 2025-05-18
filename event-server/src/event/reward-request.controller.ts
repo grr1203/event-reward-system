@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards, UnauthorizedException, Query, Headers } from '@nestjs/common';
 import { RewardRequestService } from './reward-request.service';
 import { CreateRewardRequestDto } from './dto/create-reward-request.dto';
 import { RewardRequest } from '../schemas/reward-request.schema';
@@ -9,23 +9,25 @@ export class RewardRequestController {
 
   @Post()
   async create(
-    @Req() req,
+    @Headers() headers,
     @Body() createRewardRequestDto: CreateRewardRequestDto,
   ): Promise<RewardRequest> {
-    if (!req.user?.id) {
+    const userId = headers['x-user-id'];
+    if (!userId) {
       throw new UnauthorizedException('유저 확인 실패');
     }
     
-    return this.rewardRequestService.create(req.user.id, createRewardRequestDto);
+    return this.rewardRequestService.create(userId, createRewardRequestDto);
   }
 
   @Get('me')
-  async findMine(@Req() req): Promise<RewardRequest[]> {
-    if (!req.user?.id) {
+  async findMine(@Headers() headers): Promise<RewardRequest[]> {
+    const userId = headers['x-user-id'];
+    if (!userId) {
       throw new UnauthorizedException('유저 확인 실패');
     }
     
-    return this.rewardRequestService.findAllByUser(req.user.id);
+    return this.rewardRequestService.findAllByUser(userId);
   }
 
   @Get()
