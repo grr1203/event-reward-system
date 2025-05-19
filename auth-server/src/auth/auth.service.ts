@@ -29,7 +29,7 @@ export class AuthService {
 
     // 비밀번호 해싱
     private async hashPassword(password: string): Promise<string> {
-        const salt = await bcrypt.genSalt();
+        const salt = '$2b$10$87gC33Kyfno8ugwCyr6gha';
         return bcrypt.hash(password, salt);
     }
 
@@ -72,7 +72,7 @@ export class AuthService {
         try {
             // JWT 검증
             const payload = this.jwtService.verify(refreshToken);
-            const user = await this.userModel.findOne({ id: payload.sub, refreshToken });
+            const user = await this.userModel.findOne({ id: payload.id, refreshToken });
 
             if (!user) {
                 throw new UnauthorizedException('유효하지 않은 토큰입니다');
