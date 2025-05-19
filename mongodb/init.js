@@ -59,7 +59,10 @@ db.events.insertMany([
   {
     _id: event1Id,
     title: '3일 연속 로그인 이벤트',
-    condition: {},
+    condition: {
+      type: 'login_days',
+      value: '3'
+    },
     status: 'ACTIVE',
     startAt: new Date('2025-05-01T00:00:00'),
     endAt: new Date('2025-05-31T23:59:59'),
@@ -69,7 +72,10 @@ db.events.insertMany([
   {
     _id: event2Id,
     title: '보스 레이드 이벤트 - 검은 마법사',
-    condition: {},
+    condition: {
+      type: 'boss_clear',
+      value: 'black_mage'
+    },
     status: 'ACTIVE',
     startAt: new Date('2025-05-15T00:00:00'),
     endAt: new Date('2025-06-01T23:59:59'),
