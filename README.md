@@ -6,7 +6,7 @@ NestJS + MSA + MongoDB 기반 3개의 서버 구조로 구현했습니다. API G
 
 ## 시스템 구성
 
-![Image](https://github.com/user-attachments/assets/dadc7096-c1ba-4e10-84c5-19da1e165e58)
+![diagram](https://github.com/user-attachments/assets/3bdbd944-e2b6-4722-8790-2600004030aa)
 
 1. **Gateway Server**: 클라이언트 요청을 검증 및 Role 검사 후 적절한 서비스로 라우팅합니다 (PORT: 3000)
 	- **JwtStrategy**  
@@ -69,7 +69,7 @@ docker-compose down
   "statusCode": 200,
   "message": "요청이 성공적으로 처리되었습니다",
   "data": {
-    // 실제 응답 데이터
+	"실제 응답 데이터"
   }
 }
 ```
@@ -134,7 +134,7 @@ docker-compose down
     "id": "사용자 ID",
     "name": "사용자 이름",
     "password": "비밀번호",
-    "role": "ADMIN" | "OPERATOR" | "AUDITOR" | "USER"
+    "role": "ADMIN | OPERATOR | AUDITOR | USER"
   }
   ```
   - Response:
@@ -152,7 +152,7 @@ docker-compose down
   ```json
   {
     "id": "사용자 ID",
-    "role": "ADMIN" | "OPERATOR" | "AUDITOR" | "USER"
+    "role": "ADMIN | OPERATOR | ADTOR | USER"
   }
   ```
   - Response:
@@ -174,12 +174,12 @@ docker-compose down
   - Request:
   ```json
   {
-    "title": "이벤트 제목", // ex) 보스 레이드 이벤트 - 검은 마법사
+    "title": "이벤트 제목 // ex) 보스 레이드 이벤트 - 검은 마법사",
     "condition": {
-      "type": "조건 타입", // ex) boss_clear
-      "value": "조건 값" // ex) black_mage
+      "type": "조건 타입 // ex) boss_clear",
+      "value": "조건 값 // ex) black_mage",
     },
-    "status": "ACTIVE" | "INACTIVE",
+    "status": "ACTIVE | INACTIVE",
     "startAt": "시작 날짜",
     "endAt": "종료 날짜"
   }
@@ -217,10 +217,10 @@ docker-compose down
   ```json
   {
     "eventId": "이벤트 ID",
-    "type": "POINT" | "COUPON" | "ITEM",
+    "type": "POINT | COUPON | ITEM",
     "amount": "보상 수량 또는 양(포인트)",
-    "itemId": "아이템인 경우 아이템 아이디" (optional),
-    "couponCode": "쿠폰인 경우 쿠폰 코드" (optional),
+    "itemId": "아이템인 경우 아이템 아이디 (optional)",
+    "couponCode": "쿠폰인 경우 쿠폰 코드 (optional)",
     "description": "보상 설명"
   }
   ```
@@ -231,8 +231,8 @@ docker-compose down
     "eventId": "이벤트 ID",
     "type": "보상 타입",
     "amount": "보상 수량 또는 양(포인트)",
-    "itemId": "아이템인 경우 아이템 아이디" (optional),
-    "couponCode": "쿠폰인 경우 쿠폰 코드" (optional),
+    "itemId": "아이템인 경우 아이템 아이디 (optional)",
+    "couponCode": "쿠폰인 경우 쿠폰 코드 (optional)",
     "description": "보상 설명",
     "createdAt": "생성일",
     "updatedAt": "수정일"
@@ -265,7 +265,7 @@ docker-compose down
     "userId": "사용자 ID",
     "eventId": "이벤트 ID",
     "rewardId": "보상 ID",
-    "status": "PENDING" | "SUCCESS" | "FAILED",
+    "status": "PENDING | SUCCESS | FAILED",
     "reason": "처리 사유",
     "requestedAt": "요청 시간",
     "processedAt": "처리 시간"
